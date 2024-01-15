@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:guaner.zzx@alipay.com">Alaneuler</a>
@@ -54,7 +55,8 @@ public class SpecifyLogLevelTest extends LogTestBase {
             environment.getProperty(Constants.LOG_ENCODING_PROP_KEY));
         logger.info("info level");
         logger.debug("debug level");
-        List<String> contents = FileUtils.readLines(logFile,
+        List<String> contents = new ArrayList<>();
+        contents = FileUtils.readLines(logFile,
             environment.getProperty(Constants.LOG_ENCODING_PROP_KEY));
         Assert.assertEquals(2, contents.size());
         Assert.assertTrue(contents.get(0).contains("info level"));
