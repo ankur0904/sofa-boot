@@ -1,0 +1,31 @@
+# .github/workflows/maven-test.yml
+
+name: Maven Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+
+    - name: Build and install with skipTests
+      run: mvn clean install -DskipTests -pl sofa-boot-project/sofa-boot-starters/log-sofa-boot-starter -am
+
+    - name: Run specific test
+      run: mvn -pl sofa-boot-project/sofa-boot-starters/log-sofa-boot-starter test -Dtest=com.alipay.sofa.common.boot.logging.test.SpecifyLogLevelTest#test
+
+    - name: Run specific test with nondex
+      run: mvn -pl sofa-boot-project/sofa-boot-starters/log-sofa-boot-starter edu.illinois:nondex-maven-plugin:nondex -Dtest=com.alipay.sofa.common.boot.logging.test.SpecifyLogLevelTest#test
